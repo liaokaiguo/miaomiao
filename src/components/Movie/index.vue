@@ -22,20 +22,50 @@
           </keep-alive>
         </div>
       <TabBar />
-      <MessageBox />
     </div>
 </template>
 
 <script>
   import Header from '@/components/Header';
   import TabBar from '@/components/TabBar';
-  import MessageBox from '@/components/JS/MessageBox'
+  import { messageBox } from "@/components/JS";
+
   export default {
     name: "Movie",
     components:{
       Header,
       TabBar,
-      MessageBox,
+    },
+    mounted() {
+      var that = this;
+      setTimeout(()=>{
+        this.axios.get('/api/getLocation').then((res)=>{
+          var msg = res.data.msg;
+          if(msg === 'ok'){
+            var nm = res.data.data.nm;
+            var id = res.data.data.id;
+            if(this.$store.state.city.id == id){return;}
+            messageBox({
+              title:'定位',
+              content:nm ,
+              cancel:'取消',
+              ok:'切换定位',
+              handleCancel(){
+                console.log(1);
+              },
+              handleOk(){
+                that.$store.commit('city/CITY_INFO',{nm,id});//x修改状态管理器
+                // 修改本地存储
+                window.localStorage.setItem('nowNm',nm);
+                window.localStorage.setItem('nowId',id);
+                window.location.reload();
+              }
+            });
+          }
+        });
+      },3000);
+
+
     }
   }
 </script>

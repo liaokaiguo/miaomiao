@@ -80,7 +80,7 @@
 </script>
 
 <style scoped>
-  #content .cinema_body{ flex:1; overflow:auto;}
+  #content .cinema_body{ overflow:auto;height: 520px}
   .cinema_body ul{ padding:20px;}
   .cinema_body li{  border-bottom:1px solid #e6e6e6; margin-bottom: 20px;}
   .cinema_body div{ margin-bottom: 10px;}
